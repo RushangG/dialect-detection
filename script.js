@@ -29,19 +29,38 @@ function detectDialect() {
     document.getElementById("result").innerText = `Detected Dialect: ${result}`;
 }
 
-// Function to fetch country info
-function fetchCountryInfo(countryName) {
-    // Use the Restcountries API to fetch country data
+// Function to fetch and populate the dropdown with country names
+function populateCountryDropdown() {
+    fetch('https://restcountries.com/v3.1/all')
+        .then(response => response.json())
+        .then(data => {
+            const dropdown = document.getElementById("countryDropdown");
+            data.forEach(country => {
+                const option = document.createElement("option");
+                option.value = country.name.common;
+                option.textContent = country.name.common;
+                dropdown.appendChild(option);
+            });
+        })
+        .catch(error => console.error("Error fetching country data:", error));
+}
+
+// Function to fetch and display country info
+function fetchCountryInfo() {
+    const countryName = document.getElementById("countryDropdown").value;
+
+    if (!countryName) {
+        alert("Please select a country.");
+        return;
+    }
+
     fetch(`https://restcountries.com/v3.1/name/${countryName}`)
         .then(response => response.json())
         .then(data => {
-            // Grab the first country result from the response
             const country = data[0];
-            
-            // Display country information
             const countryInfo = `
                 <h3>${country.name.common}</h3>
-                <p><strong>Capital:</strong> ${country.capital}</p>
+                <p><strong>Capital:</strong> ${country.capital ? country.capital[0] : "N/A"}</p>
                 <p><strong>Population:</strong> ${country.population}</p>
                 <p><strong>Region:</strong> ${country.region}</p>
                 <p><strong>Flag:</strong> <img src="${country.flags.png}" alt="Flag of ${country.name.common}" style="width: 50px; height: auto;"></p>
@@ -49,6 +68,13 @@ function fetchCountryInfo(countryName) {
             `;
 
             document.getElementById("countryInfo").innerHTML = countryInfo;
+
+            // Play voice (if available)
+            if (countryName.toLowerCase() === "france") {
+                document.getElementById("voiceSource").src = "https://example.com/france-voice.mp3"; // Replace with an actual audio URL
+                document.getElementById("countryVoice").style.display = "block";
+                document.getElementById("countryVoice").play();
+            }
         })
         .catch(error => {
             console.error("Error fetching country info:", error);
@@ -56,12 +82,7 @@ function fetchCountryInfo(countryName) {
         });
 }
 
-// Example: Call the function when a country name is input
-document.getElementById("countrySearchButton").addEventListener("click", function() {
-    const countryName = document.getElementById("countryNameInput").value.trim();
-    if (countryName) {
-        fetchCountryInfo(countryName);
-    } else {
-        document.getElementById("countryInfo").innerText = "Please enter a country name.";
-    }
-});
+// Initialize dropdown on page load
+window.onload = function() {
+    populateCountryDropdown();
+};
