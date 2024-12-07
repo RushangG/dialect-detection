@@ -9,20 +9,14 @@
 <body>
     <div class="container">
         <h1>English Dialect Detection</h1>
-
-        <!-- Display Image from GitHub -->
-        <img src="https://raw.githubusercontent.com/RushangG/dialect-detection/main/assets/OIP.jpg" alt="Dialect Image" style="width: 300px; height: auto;">
-
-        <!-- Text input for dialect detection -->
         <textarea id="textInput" placeholder="Enter your text here..."></textarea>
         <button onclick="detectDialect()">Detect Dialect</button>
         <div id="result"></div>
 
-        <!-- Audio from GitHub -->
-        <audio controls>
-            <source src="https://raw.githubusercontent.com/RushangG/dialect-detection/main/assets/Hitch_1.mp3" type="audio/mp3">
-            Your browser does not support the audio element.
-        </audio>
+        <h2>Country Info</h2>
+        <input type="text" id="countryNameInput" placeholder="Enter country name" />
+        <button id="countrySearchButton">Get Country Info</button>
+        <div id="countryInfo"></div>
     </div>
 
     <script src="script.js"></script>
