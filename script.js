@@ -71,7 +71,7 @@ function fetchCountryInfo() {
 
             // Play voice (if available)
             if (countryName.toLowerCase() === "france") {
-                document.getElementById("voiceSource").src = "https://example.com/france-voice.mp3"; // Replace with an actual audio URL
+                document.getElementById("voiceSource").src = "assets/Hitch_1.mp3"; // Path to your local audio file
                 document.getElementById("countryVoice").style.display = "block";
                 document.getElementById("countryVoice").play();
             }
